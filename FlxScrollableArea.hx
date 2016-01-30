@@ -71,9 +71,9 @@ class FlxScrollableArea extends FlxCamera
 		_scrollbarColour = ScrollbarColour;
 		_resizeModeGoal = Mode;
 		
-		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour );
+		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this );
 		FlxG.state.add( _verticalScrollbar );
-		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour );
+		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour, this );
 		FlxG.state.add( _horizontalScrollbar );
 
 		onResize();
@@ -184,7 +184,6 @@ class FlxScrollableArea extends FlxCamera
 		scroll.x = content.x;
 		scroll.y = content.y;
 	}
-	
 	function get_bestMode():ResizeMode 
 	{
 		return bestMode;

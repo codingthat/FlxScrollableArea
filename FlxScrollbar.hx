@@ -3,6 +3,7 @@ package flixel.addons;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 
@@ -27,6 +28,9 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _track:FlxSprite;
 	private var _bar:FlxSprite;
 	private var _stale:Bool = true;
+	private var _camera:FlxScrollableArea;
+	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging
+	private var _dragStartedAtBar:Float = -1;
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
 	 * 
@@ -38,11 +42,12 @@ class FlxScrollbar extends FlxSpriteGroup
 	 * @param	Colour				The colour of the draggable part of the scrollbar.  The rest of it will be the same colour added to FlxColor.GRAY.
 	 * @param	InitiallyVisible	Bool to set .visible to.
 	 */
-	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, ?InitiallyVisible:Bool=false ) 
+	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false ) 
 	{
 		super( X, Y );
 		_orientation = Orientation;
 		_colour = Colour;
+		_camera = Camera;
 		
 		_track = new FlxSprite();
 		_track.makeGraphic( Std.int( Width ), Std.int( Height ), FlxColor.add( FlxColor.GRAY, _colour ), true );
@@ -61,7 +66,7 @@ class FlxScrollbar extends FlxSpriteGroup
 			var zeroContent:Bool = (contentSize == 0);
 			if (zeroContent)
 				contentSize = 1; // avoid div-by-zero below
-			if ( _orientation == HORIZONTAL ) {
+			if (_orientation == HORIZONTAL) {
 				barProportion = FlxMath.bound( _track.width / contentSize, _minProportion );
 				_bar.makeGraphic( Std.int( _track.width * barProportion ), Std.int( _track.height ), _colour, true );
 				if (contentSize == _track.width)
@@ -84,7 +89,40 @@ class FlxScrollbar extends FlxSpriteGroup
 		}
 		super.draw();
 	}
-	
+	override public function update(elapsed:Float)
+	{
+		var mousePosition = FlxG.mouse.getWorldPosition();
+		if (FlxG.mouse.justPressed) {
+			if (_bar.overlapsPoint( mousePosition )) {
+				trace('scrollbar pressed');
+				if (_orientation == HORIZONTAL) {
+					_dragStartedAt = mousePosition;
+					_dragStartedAtBar = _bar.x;
+				}
+				// TODO vert
+			} else if (_track.overlapsPoint( mousePosition )) {
+				trace('track hit');
+				// TODO: track/paging case
+			}
+		}
+		if (_dragStartedAt != null) {
+			if (_orientation == HORIZONTAL) {
+				if (mousePosition.y < (_camera.y + _camera.height / 2)) // allow 50% of height away before jumping back to original position
+					mousePosition.x = _dragStartedAt.x;
+				_bar.x = FlxMath.bound( _dragStartedAtBar + (mousePosition.x - _dragStartedAt.x), _track.x, _track.x + _track.width - _bar.width );
+				contentScrolled = (contentSize - _track.width) * FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
+				var scrolled = _camera.scroll;
+				scrolled.x = contentScrolled; // preserve .y this way
+				_camera.set_scroll( scrolled );
+			} else { // VERTICAL
+				// TODO
+			}
+		}
+		if (FlxG.mouse.justReleased)
+			_dragStartedAt = null;
+		draw();
+		super.update(elapsed);
+	}
 	function get_contentScrolled():Float 
 	{
 		return contentScrolled;
