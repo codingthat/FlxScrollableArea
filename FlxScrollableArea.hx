@@ -55,7 +55,7 @@ class FlxScrollableArea extends FlxCamera
 	 * Creates a specialized FlxCamera that can be added to FlxG.cameras.
 	 *
 	 * @param	ViewPort			The area on the screen, in absolute pixels, that will show content.
-	 * @param	Content				The area (probably off-screen) to be viewed in ViewPort.
+	 * @param	Content				The area (probably off-screen) to be viewed in ViewPort.  Must have a non-zero width and height.
 	 * @param	Mode				State the goal of your own resizing code, so that the .bestMode property contains an accurate value.
 	 * @param	ScrollbarThickness	Defaults to 20 for mice and 4 "otherwise" (touch is assumed.)
 	 * @param	ScrollbarColour		Passed to FlxScrollbar.  ("They say geniuses pick green," so don't change the default unless you're the supergenius we all know you to be.)
@@ -70,6 +70,9 @@ class FlxScrollableArea extends FlxCamera
 		}
 		_scrollbarColour = ScrollbarColour;
 		_resizeModeGoal = Mode;
+
+		scroll.x = content.x;
+		scroll.y = content.y;
 		
 		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this );
 		FlxG.state.add( _verticalScrollbar );
@@ -77,11 +80,6 @@ class FlxScrollableArea extends FlxCamera
 		FlxG.state.add( _horizontalScrollbar );
 
 		onResize();
-	}
-	public function set_scroll( newScroll:FlxPoint ) {
-		this.scroll = newScroll;
-		_horizontalScrollbar.contentScrolled = scroll.x;
-		_verticalScrollbar.contentScrolled = scroll.y;
 	}
 	function set_viewPort(value:FlxRect):FlxRect 
 	{
@@ -167,22 +165,22 @@ class FlxScrollableArea extends FlxCamera
 			if (_verticalScrollbar.visible) {
 				_verticalScrollbar.x = viewPort.right - scrollbarThickness;
 				_verticalScrollbar.y = viewPort.y;
-				_verticalScrollbar.contentSize = content.height;
+				_verticalScrollbar.updateScrollY();
+				_verticalScrollbar.draw();
 			}
 			if (_horizontalScrollbar.visible) {
 				_horizontalScrollbar.x = viewPort.x;
 				_horizontalScrollbar.y = viewPort.bottom - scrollbarThickness;
-				_horizontalScrollbar.contentSize = content.width;				
+				_horizontalScrollbar.updateScrollX();
+				_horizontalScrollbar.draw();
 			}
 		#end
 		// TODO: touch
+		// TODO: mousewheel
 		x = Std.int( viewPort.x );
 		y = Std.int( viewPort.y );
 		width = Std.int( viewPort.width - verticalScrollbarWidth );
 		height = Std.int( viewPort.height - horizontalScrollbarHeight );
-		_bounds = content;
-		scroll.x = content.x;
-		scroll.y = content.y;
 	}
 	function get_bestMode():ResizeMode 
 	{

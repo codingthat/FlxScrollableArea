@@ -13,15 +13,6 @@ import flixel.util.FlxSpriteUtil;
  */
 class FlxScrollbar extends FlxSpriteGroup
 {
-	/**
-	 * Width or height in pixels of the total content that this scrollbar is relevant to.
-	 */
-	@:isVar public var contentSize(get, set):Float = 0;
-	/**
-	 * Amount in pixels of the total content that has been scrolled.
-	 */
-	@:isVar public var contentScrolled(get, set):Float = 0;
-	
 	private var _orientation:FlxScrollbarOrientation;
 	private var _colour:FlxColor;
 	private var _minProportion:Float = 0.1; // smallest barProportion of the track that the bar can be
@@ -29,8 +20,8 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _bar:FlxSprite;
 	private var _stale:Bool = true;
 	private var _camera:FlxScrollableArea;
-	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging
-	private var _dragStartedAtBar:Float = -1;
+	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
+	private var _dragStartedAtBar:Float; // the x or y (depending on orientation) of the bar at drag start
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
 	 * 
@@ -63,28 +54,23 @@ class FlxScrollbar extends FlxSpriteGroup
 		if (_stale) {
 			var barProportion:Float;
 			var scrolledProportion:Float;
-			var zeroContent:Bool = (contentSize == 0);
-			if (zeroContent)
-				contentSize = 1; // avoid div-by-zero below
 			if (_orientation == HORIZONTAL) {
-				barProportion = FlxMath.bound( _track.width / contentSize, _minProportion );
+				barProportion = FlxMath.bound( _track.width / _camera.content.width, _minProportion );
 				_bar.makeGraphic( Std.int( _track.width * barProportion ), Std.int( _track.height ), _colour, true );
-				if (contentSize == _track.width)
+				if (_camera.content.width == _track.width)
 					scrolledProportion = 0;
 				else
-					scrolledProportion = FlxMath.bound( contentScrolled / ( contentSize - _track.width ), 0, 1 );
+					scrolledProportion = FlxMath.bound( _camera.scroll.x / ( _camera.content.width - _track.width ), 0, 1 );
 				_bar.x = scrolledProportion * (_track.width * (1 - barProportion));
 			} else {
-				barProportion = FlxMath.bound( _track.height / contentSize, _minProportion );
+				barProportion = FlxMath.bound( _track.height / _camera.content.height, _minProportion );
 				_bar.makeGraphic( Std.int( _track.width ), Std.int( _track.height * barProportion ), _colour, true );
-				if (contentSize == _track.height)
+				if (_camera.content.height == _track.height)
 					scrolledProportion = 0;
 				else
-					scrolledProportion = FlxMath.bound( contentScrolled / ( contentSize - _track.height ), 0, 1 );
+					scrolledProportion = FlxMath.bound( _camera.scroll.y / ( _camera.content.height - _track.height ), 0, 1 );
 				_bar.y = scrolledProportion * (_track.height * (1 - barProportion));
 			}
-			if (zeroContent)
-				contentSize = 0; // put it back
 			_stale = false;
 		}
 		super.draw();
@@ -94,14 +80,13 @@ class FlxScrollbar extends FlxSpriteGroup
 		var mousePosition = FlxG.mouse.getWorldPosition();
 		if (FlxG.mouse.justPressed) {
 			if (_bar.overlapsPoint( mousePosition )) {
-				trace('scrollbar pressed');
+				_dragStartedAt = mousePosition;
 				if (_orientation == HORIZONTAL) {
-					_dragStartedAt = mousePosition;
 					_dragStartedAtBar = _bar.x;
+				} else {
+					_dragStartedAtBar = _bar.y;					
 				}
-				// TODO vert
 			} else if (_track.overlapsPoint( mousePosition )) {
-				trace('track hit');
 				// TODO: track/paging case
 			}
 		}
@@ -110,43 +95,30 @@ class FlxScrollbar extends FlxSpriteGroup
 				if (mousePosition.y < (_camera.y + _camera.height / 2)) // allow 50% of height away before jumping back to original position
 					mousePosition.x = _dragStartedAt.x;
 				_bar.x = FlxMath.bound( _dragStartedAtBar + (mousePosition.x - _dragStartedAt.x), _track.x, _track.x + _track.width - _bar.width );
-				contentScrolled = (contentSize - _track.width) * FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
-				var scrolled = _camera.scroll;
-				scrolled.x = contentScrolled; // preserve .y this way
-				_camera.set_scroll( scrolled );
+				updateScrollX();
 			} else { // VERTICAL
-				// TODO
+				if (mousePosition.x < (_camera.x + _camera.width / 2)) // allow 50% of width away before jumping back to original position
+					mousePosition.y = _dragStartedAt.y;
+				_bar.y = FlxMath.bound( _dragStartedAtBar + (mousePosition.y - _dragStartedAt.y), _track.y, _track.y + _track.height - _bar.height );
+				updateScrollY();
 			}
 		}
 		if (FlxG.mouse.justReleased)
 			_dragStartedAt = null;
-		draw();
 		super.update(elapsed);
 	}
-	function get_contentScrolled():Float 
-	{
-		return contentScrolled;
+	/**
+	 * Updates the view's horizontal scroll.  Should be done from the outside if there's a resize.
+	 */
+	public function updateScrollX() {
+		_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
 	}
-	
-	function set_contentScrolled(value:Float):Float 
-	{
-		if (contentScrolled != value)
-			_stale = true;
-		return contentScrolled = value;
+	/**
+	 * Updates the view's vertical scroll.  Should be done from the outside if there's a resize.
+	 */
+	public function updateScrollY() {
+		_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
 	}
-	
-	function get_contentSize():Float 
-	{
-		return contentSize;
-	}
-	
-	function set_contentSize(value:Float):Float 
-	{
-		if (contentSize != value)
-			_stale = true;
-		return contentSize = value;
-	}
-	
 	/**
 	 * Use this instead of setting .width, in order to ensure the scrollbar is redrawn.
 	 * @param	value	The new width.

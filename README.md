@@ -26,27 +26,20 @@ Then in your state's `onResize()`, follow this basic pattern for each scrollable
 	_myScrollableThingie.content = new FlxRect( _offscreenX, 0, width_of_my_content, height_of_my_content );
 ```
 
-Voila, you should have sensibly drawn scrollbars.
+Voila, you should have sensibly drawn, functional scrollbars.
 
 ## Caveat: dev branch only
 
-I've only tested this using the dev branch of HaxeFlixel.  It may be broken on stable, but the dev branch is supposed to be the new stable soonish, AFAICT.
+I've only tested this using the dev branch of HaxeFlixel.  It's broken on stable due to such fundamental changes as `update()`'s signature, but the dev branch is supposed to be the new stable soonish, AFAICT.
+
+(If you need it on stable, it probably wouldn't be a lot of work to port, but it may have, in general, more bugs, since stable has some strange behaviour with StageSizeScaleMode.  Hence the use of dev.)
 
 ## Caveat: fullscreen only
 
 I've only tested this fullscreen, but hopefully it won't take many changes to work on smaller areas.
 
-## Caveat, they aren't draggable/swipable yet
+## Caveat: they aren't swipable yet
 
-That's next.  At least the draggable part.  I'm still figuring out some general Android testing issues before I'll tackle that part, unless you want to.
+I'm still figuring out some general Android testing issues before I'll tackle that part, unless you want to.
 
-However, meanwhile you can manually tell the area to scroll by using code like this in your state's `update()`:
-
-```haxe
-	if (FlxG.mouse.justReleased) {
-		if (mySprite.overlapsPoint( FlxG.mouse.getWorldPosition(_myScrollableThingie), true, _myScrollableThingie)) {
-			var scrolled = _myScrollableThingie.scroll;
-			scrolled.y += FlxG.mouse.y;
-			_myScrollableThingie.set_scroll( scrolled );
-	...
-```
+However, meanwhile you can manually tell the area to scroll by `.set_scroll()`, if you want.
