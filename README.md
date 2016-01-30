@@ -2,10 +2,6 @@
 
 A scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called DO_NOT.
 
-## dev branch only
-
-I've only tested this using the dev branch of HaxeFlixel.  It may be broken on stable, but the dev branch is supposed to be the new stable soonish, AFAICT.
-
 ## How do I use it?
 
 Clone this into your project's source/flixel/addons directory.  (This doesn't seem the right way to do things; I was maybe too ambitious hoping this will make it into flixel-addons, but I'd love to hear The Right Way to Do Things.)
@@ -31,6 +27,14 @@ Then in your state's `onResize()`, follow this basic pattern for each scrollable
 ```
 
 Voila, you should have sensibly drawn scrollbars.
+
+## Caveat: dev branch only
+
+I've only tested this using the dev branch of HaxeFlixel.  It may be broken on stable, but the dev branch is supposed to be the new stable soonish, AFAICT.
+
+## Caveat: fullscreen only
+
+I've only tested this fullscreen, but hopefully it won't take many changes to work on smaller areas.
 
 ## Caveat, they aren't draggable/swipable yet
 
