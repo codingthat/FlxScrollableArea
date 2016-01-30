@@ -83,67 +83,6 @@ class FlxScrollableArea extends FlxCamera
 		_horizontalScrollbar.contentScrolled = scroll.x;
 		_verticalScrollbar.contentScrolled = scroll.y;
 	}
-	/**
-	 * Assumes that .viewPort has already been set in the parent state's onResize function.
-	 */
-	override public function onResize() {
-		super.onResize();
-
-		#if !FLX_NO_MOUSE
-			if (verticalScrollbarWidth > 0) {
-				_verticalScrollbar.visible = true;
-				if (horizontalScrollbarHeight > 0) { // both
-					_horizontalScrollbar.visible = true;
-					_horizontalScrollbar.resizeWidth( viewPort.width - verticalScrollbarWidth );
-					_verticalScrollbar.resizeHeight( viewPort.height - horizontalScrollbarHeight );
-				} else { // just vert
-					_horizontalScrollbar.visible = false;
-					_verticalScrollbar.resizeHeight( viewPort.height );
-				}
-			} else {
-				_verticalScrollbar.visible = false;
-				if (horizontalScrollbarHeight > 0) { // just horiz
-					_horizontalScrollbar.visible = true;
-					_horizontalScrollbar.resizeWidth( viewPort.width );
-				} else { // neither
-					_horizontalScrollbar.visible = false;
-				}
-			}
-			if (_verticalScrollbar.visible) {
-				_verticalScrollbar.x = viewPort.right - scrollbarThickness;
-				_verticalScrollbar.y = viewPort.y;
-				_verticalScrollbar.contentSize = content.height;
-			}
-			if (_horizontalScrollbar.visible) {
-				_horizontalScrollbar.x = viewPort.x;
-				_horizontalScrollbar.y = viewPort.bottom - scrollbarThickness;
-				_horizontalScrollbar.contentSize = content.width;				
-			}
-		#end
-		// TODO: touch
-		x = Std.int( viewPort.x );
-		y = Std.int( viewPort.y );
-		width = Std.int( viewPort.width - verticalScrollbarWidth );
-		height = Std.int( viewPort.height - horizontalScrollbarHeight );
-		_bounds = content;
-		scroll.x = content.x;
-		scroll.y = content.y;
-	}
-	
-	function get_bestMode():ResizeMode 
-	{
-		return bestMode;
-	}
-	function get_horizontalScrollbarHeight():Int 
-	{
-		return horizontalScrollbarHeight;
-	}
-	
-	function get_verticalScrollbarWidth():Int 
-	{
-		return verticalScrollbarWidth;
-	}
-	
 	function set_viewPort(value:FlxRect):FlxRect 
 	{
 		verticalScrollbarWidth = 0;
@@ -199,6 +138,66 @@ class FlxScrollableArea extends FlxCamera
 		#end
 		return viewPort = value;
 	}
+	/**
+	 * Assumes that .viewPort has already been set in the parent state's onResize function.
+	 */
+	override public function onResize() {
+		super.onResize();
+
+		#if !FLX_NO_MOUSE
+			if (verticalScrollbarWidth > 0) {
+				_verticalScrollbar.visible = true;
+				if (horizontalScrollbarHeight > 0) { // both
+					_horizontalScrollbar.visible = true;
+					_horizontalScrollbar.resizeWidth( viewPort.width - verticalScrollbarWidth );
+					_verticalScrollbar.resizeHeight( viewPort.height - horizontalScrollbarHeight );
+				} else { // just vert
+					_horizontalScrollbar.visible = false;
+					_verticalScrollbar.resizeHeight( viewPort.height );
+				}
+			} else {
+				_verticalScrollbar.visible = false;
+				if (horizontalScrollbarHeight > 0) { // just horiz
+					_horizontalScrollbar.visible = true;
+					_horizontalScrollbar.resizeWidth( viewPort.width );
+				} else { // neither
+					_horizontalScrollbar.visible = false;
+				}
+			}
+			if (_verticalScrollbar.visible) {
+				_verticalScrollbar.x = viewPort.right - scrollbarThickness;
+				_verticalScrollbar.y = viewPort.y;
+				_verticalScrollbar.contentSize = content.height;
+			}
+			if (_horizontalScrollbar.visible) {
+				_horizontalScrollbar.x = viewPort.x;
+				_horizontalScrollbar.y = viewPort.bottom - scrollbarThickness;
+				_horizontalScrollbar.contentSize = content.width;				
+			}
+		#end
+		// TODO: touch
+		x = Std.int( viewPort.x );
+		y = Std.int( viewPort.y );
+		width = Std.int( viewPort.width - verticalScrollbarWidth );
+		height = Std.int( viewPort.height - horizontalScrollbarHeight );
+		_bounds = content;
+		scroll.x = content.x;
+		scroll.y = content.y;
+	}
+	
+	function get_bestMode():ResizeMode 
+	{
+		return bestMode;
+	}
+	function get_horizontalScrollbarHeight():Int 
+	{
+		return horizontalScrollbarHeight;
+	}
+	function get_verticalScrollbarWidth():Int 
+	{
+		return verticalScrollbarWidth;
+	}
+	
 }
 enum ResizeMode {
 	FIT_WIDTH;
