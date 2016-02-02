@@ -64,12 +64,12 @@ class FlxScrollableArea extends FlxCamera
 		super();
 		
 		content = Content;
+		_resizeModeGoal = Mode; // must be before we set the viewport, because set_viewport uses it
 		viewPort = ViewPort;
 		if (ScrollbarThickness > -1) {
 			scrollbarThickness = ScrollbarThickness;
 		}
 		_scrollbarColour = ScrollbarColour;
-		_resizeModeGoal = Mode;
 
 		scroll.x = content.x;
 		scroll.y = content.y;
