@@ -77,6 +77,8 @@ class FlxScrollbar extends FlxSpriteGroup
 	}
 	override public function update(elapsed:Float)
 	{
+		if (!visible)
+			return;
 		var mousePosition = FlxG.mouse.getWorldPosition();
 		if (FlxG.mouse.justPressed) {
 			if (_bar.overlapsPoint( mousePosition )) {
@@ -111,13 +113,23 @@ class FlxScrollbar extends FlxSpriteGroup
 	 * Updates the view's horizontal scroll.  Should be done from the outside if there's a resize.
 	 */
 	public function updateScrollX() {
-		_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
+		var scrolledProportion:Float;
+		if (_track.width == _bar.width)
+			scrolledProportion = 0;
+		else
+			scrolledProportion = FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
+		_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * scrolledProportion;
 	}
 	/**
 	 * Updates the view's vertical scroll.  Should be done from the outside if there's a resize.
 	 */
 	public function updateScrollY() {
-		_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
+		var scrolledProportion:Float;
+		if (_track.height == _bar.height)
+			scrolledProportion = 0;
+		else
+			scrolledProportion = FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
+		_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * scrolledProportion;
 	}
 	/**
 	 * Use this instead of setting .width, in order to ensure the scrollbar is redrawn.
