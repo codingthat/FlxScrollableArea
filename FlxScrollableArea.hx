@@ -22,7 +22,7 @@ class FlxScrollableArea extends FlxCamera
 	 */
 	public var content:FlxRect;
 	/**
-	 * Returns the best layout strategy you should use in your state's onResize function.  If you passed DO_NOT in the constructor,
+	 * Returns the best layout strategy you should use in your state's onResize function.  If you passed NONE in the constructor,
 	 * this function just returns that.
 	 * 
 	 * Be sure to resize the viewport before calling this function, which will trigger a recalculation of this value and the scrollbar sizes.
@@ -93,8 +93,8 @@ class FlxScrollableArea extends FlxCamera
 		horizontalScrollbarHeight = 0; // until otherwise calculated
 
 		#if !FLX_NO_MOUSE
-			if (_resizeModeGoal == DO_NOT) { // base it directly on content, since this is only used from onResize
-				bestMode = DO_NOT;
+			if (_resizeModeGoal == NONE) { // base it directly on content, since this is only used from onResize
+				bestMode = NONE;
 				if (content.width - value.width > _hiddenPixelAllowance) {
 					horizontalScrollbarHeight = scrollbarThickness;
 				}
@@ -222,5 +222,5 @@ class FlxScrollableArea extends FlxCamera
 enum ResizeMode {
 	FIT_WIDTH;
 	FIT_HEIGHT;
-	DO_NOT;
+	NONE;
 }
