@@ -31,6 +31,7 @@ class FlxScrollbar extends FlxSpriteGroup
 	 * @param	Height				"
 	 * @param	Orientation			Whether it's meant to operate vertically or horizontally.  (This is not assumed from the width/height.)
 	 * @param	Colour				The colour of the draggable part of the scrollbar.  The rest of it will be the same colour added to FlxColor.GRAY.
+	 * @param	Camera				The parent scrollable area to control with this scrollbar.
 	 * @param	InitiallyVisible	Bool to set .visible to.
 	 */
 	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false ) 
@@ -97,55 +98,77 @@ class FlxScrollbar extends FlxSpriteGroup
 				if (mousePosition.y < (_camera.y + _camera.height / 2)) // allow 50% of height away before jumping back to original position
 					mousePosition.x = _dragStartedAt.x;
 				_bar.x = FlxMath.bound( _dragStartedAtBar + (mousePosition.x - _dragStartedAt.x), _track.x, _track.x + _track.width - _bar.width );
-				updateScrollX();
 			} else { // VERTICAL
 				if (mousePosition.x < (_camera.x + _camera.width / 2)) // allow 50% of width away before jumping back to original position
 					mousePosition.y = _dragStartedAt.y;
 				_bar.y = FlxMath.bound( _dragStartedAtBar + (mousePosition.y - _dragStartedAt.y), _track.y, _track.y + _track.height - _bar.height );
-				updateScrollY();
 			}
+			updateViewScroll();
 		}
 		if (FlxG.mouse.justReleased)
 			_dragStartedAt = null;
 		super.update(elapsed);
 	}
 	/**
-	 * Updates the view's horizontal scroll.  Should be done from the outside if there's a resize.
+	 * Updates the view's scroll.  Should be done from the outside if there's a resize.
 	 */
-	public function updateScrollX() {
+	public function updateViewScroll() {
 		var scrolledProportion:Float;
-		if (_track.width == _bar.width)
-			scrolledProportion = 0;
-		else
-			scrolledProportion = FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
-		_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * scrolledProportion;
+		if (_orientation == HORIZONTAL) {
+			if (_track.width == _bar.width)
+				scrolledProportion = 0;
+			else
+				scrolledProportion = FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
+			_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * scrolledProportion;
+		} else {
+			if (_track.height == _bar.height)
+				scrolledProportion = 0;
+			else
+				scrolledProportion = FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
+			_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * scrolledProportion;
+		}
 	}
-	/**
-	 * Updates the view's vertical scroll.  Should be done from the outside if there's a resize.
-	 */
-	public function updateScrollY() {
-		var scrolledProportion:Float;
-		if (_track.height == _bar.height)
-			scrolledProportion = 0;
-		else
-			scrolledProportion = FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
-		_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * scrolledProportion;
-	}
-	override private function set_width(value:Float):Float {
-		if (_track != null && _track.width != value) {
-			_track.makeGraphic( Std.int( value ), Std.int( height ), FlxColor.add( FlxColor.GRAY, _colour ), true );
+	override private function set_width(Value:Float):Float {
+		if (_track != null && _track.width != Value) {
+			_track.makeGraphic( Std.int( Value ), Std.int( height ), FlxColor.add( FlxColor.GRAY, _colour ), true );
 			_stale = true;
 		}
-		return super.set_width(value);
+		return super.set_width(Value);
 	}
-	override private function set_height(value:Float):Float 
+	override private function set_height(Value:Float):Float 
 	{
-		if (_track != null && _track.height != value) {
-			_track.makeGraphic( Std.int( width ), Std.int( value ), FlxColor.add( FlxColor.GRAY, _colour ), true );
+		if (_track != null && _track.height != Value) {
+			_track.makeGraphic( Std.int( width ), Std.int( Value ), FlxColor.add( FlxColor.GRAY, _colour ), true );
 			_stale = true;
 		}
-		return super.set_height(value);
-	}	
+		return super.set_height(Value);
+	}
+	override private function set_x(Value:Float):Float 
+	{
+		if (_track != null && x != Value) {
+			_stale = true;
+		}
+		return super.set_x(Value);
+	}
+	override private function set_y(Value:Float):Float 
+	{
+		if (_track != null && y != Value) {
+			_stale = true;
+		}
+		return super.set_y(Value);
+	}
+	override private function set_visible(value:Bool):Bool {
+		if (visible != value) {
+			if (visible == false) { // becoming visible: make sure we're on top
+				for ( piece in [_track, _bar] ) {
+					FlxG.state.remove( piece );
+					FlxG.state.add( piece );
+				}
+			}
+			return super.set_visible( value );
+		} else
+			return value;
+	}
 }
 enum FlxScrollbarOrientation {
 	VERTICAL;

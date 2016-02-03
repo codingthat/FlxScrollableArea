@@ -81,6 +81,12 @@ class FlxScrollableArea extends FlxCamera
 
 		onResize();
 	}
+	/**
+	 * Based on the new viewPort, sets bestMode, horizontalScrollbarHeight, and verticalScrollbarWidth.
+	 * 
+	 * @param	value	The new viewPort.
+	 * @return			The same as you passed in, for assignment chaining.
+	 */
 	function set_viewPort(value:FlxRect):FlxRect 
 	{
 		verticalScrollbarWidth = 0;
@@ -138,8 +144,14 @@ class FlxScrollableArea extends FlxCamera
 	}
 	/**
 	 * Assumes that .viewPort has already been set in the parent state's onResize function.
+	 * 
+	 * This is automatically re-run the moment .visible is set to true, to make sure that the correct scrollbars are visible.
+	 * 
+	 * During resizing, this is skipped if .visible is false.
 	 */
 	override public function onResize() {
+		if (!visible)
+			return;
 		super.onResize();
 
 		#if !FLX_NO_MOUSE
@@ -165,15 +177,19 @@ class FlxScrollableArea extends FlxCamera
 			if (_verticalScrollbar.visible) {
 				_verticalScrollbar.x = viewPort.right - scrollbarThickness;
 				_verticalScrollbar.y = viewPort.y;
-				_verticalScrollbar.updateScrollY();
-				_verticalScrollbar.draw();
 			}
 			if (_horizontalScrollbar.visible) {
 				_horizontalScrollbar.x = viewPort.x;
 				_horizontalScrollbar.y = viewPort.bottom - scrollbarThickness;
-				_horizontalScrollbar.updateScrollX();
-				_horizontalScrollbar.draw();
 			}
+			if (_verticalScrollbar.visible || _horizontalScrollbar.visible) {
+				_verticalScrollbar.updateViewScroll();
+				_horizontalScrollbar.updateViewScroll();
+			}
+			if (_verticalScrollbar.visible)
+				_verticalScrollbar.draw();
+			if (_horizontalScrollbar.visible)
+				_horizontalScrollbar.draw();
 		#end
 		// TODO: touch
 		// TODO: mousewheel
@@ -193,6 +209,14 @@ class FlxScrollableArea extends FlxCamera
 	function get_verticalScrollbarWidth():Int 
 	{
 		return verticalScrollbarWidth;
+	}
+	override public function set_visible(value:Bool):Bool {
+		super.set_visible(value); // so onResize doesn't return early
+		if (value) // if visible
+			onResize(); // show only if needed (recalc)
+		else
+			_horizontalScrollbar.visible = _verticalScrollbar.visible = false; // don't show
+		return value;
 	}
 }
 enum ResizeMode {
