@@ -131,31 +131,20 @@ class FlxScrollbar extends FlxSpriteGroup
 			scrolledProportion = FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
 		_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * scrolledProportion;
 	}
-	/**
-	 * Use this instead of setting .width, in order to ensure the scrollbar is redrawn.
-	 * @param	value	The new width.
-	 * @return			The new width.
-	 */
-	public function resizeWidth(value:Float):Float 
-	{
-		if (_track.width != value) {
+	override private function set_width(value:Float):Float {
+		if (_track != null && _track.width != value) {
 			_track.makeGraphic( Std.int( value ), Std.int( height ), FlxColor.add( FlxColor.GRAY, _colour ), true );
 			_stale = true;
 		}
-		return value;
+		return super.set_width(value);
 	}
-	/**
-	 * Use this instead of setting .height, in order to ensure the scrollbar is redrawn.
-	 * @param	value	The new height.
-	 * @return			The new height.
-	 */
-	public function resizeHeight(value:Float):Float 
+	override private function set_height(value:Float):Float 
 	{
-		if (_track.height != value) {
+		if (_track != null && _track.height != value) {
 			_track.makeGraphic( Std.int( width ), Std.int( value ), FlxColor.add( FlxColor.GRAY, _colour ), true );
 			_stale = true;
 		}
-		return value;
+		return super.set_height(value);
 	}	
 }
 enum FlxScrollbarOrientation {

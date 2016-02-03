@@ -89,13 +89,13 @@ class FlxScrollableArea extends FlxCamera
 		#if !FLX_NO_MOUSE
 			if (_resizeModeGoal == DO_NOT) { // base it directly on content, since this is only used from onResize
 				bestMode = DO_NOT;
-				if (content.width - viewPort.width > _hiddenPixelAllowance) {
+				if (content.width - value.width > _hiddenPixelAllowance) {
 					horizontalScrollbarHeight = scrollbarThickness;
 				}
-				if (content.height - (viewPort.height - horizontalScrollbarHeight) > _hiddenPixelAllowance) {
+				if (content.height - (value.height - horizontalScrollbarHeight) > _hiddenPixelAllowance) {
 					verticalScrollbarWidth = scrollbarThickness;
 					// now, with less width available, do we still fit?
-					if (content.width - (viewPort.width - verticalScrollbarWidth) > _hiddenPixelAllowance) {
+					if (content.width - (value.width - verticalScrollbarWidth) > _hiddenPixelAllowance) {
 						horizontalScrollbarHeight = scrollbarThickness;
 					}
 				}
@@ -147,17 +147,17 @@ class FlxScrollableArea extends FlxCamera
 				_verticalScrollbar.visible = true;
 				if (horizontalScrollbarHeight > 0) { // both
 					_horizontalScrollbar.visible = true;
-					_horizontalScrollbar.resizeWidth( viewPort.width - verticalScrollbarWidth );
-					_verticalScrollbar.resizeHeight( viewPort.height - horizontalScrollbarHeight );
+					_horizontalScrollbar.width = viewPort.width - verticalScrollbarWidth;
+					_verticalScrollbar.height = viewPort.height - horizontalScrollbarHeight;
 				} else { // just vert
 					_horizontalScrollbar.visible = false;
-					_verticalScrollbar.resizeHeight( viewPort.height );
+					_verticalScrollbar.height = viewPort.height;
 				}
 			} else {
 				_verticalScrollbar.visible = false;
 				if (horizontalScrollbarHeight > 0) { // just horiz
 					_horizontalScrollbar.visible = true;
-					_horizontalScrollbar.resizeWidth( viewPort.width );
+					_horizontalScrollbar.width = viewPort.width;
 				} else { // neither
 					_horizontalScrollbar.visible = false;
 				}
@@ -194,7 +194,6 @@ class FlxScrollableArea extends FlxCamera
 	{
 		return verticalScrollbarWidth;
 	}
-	
 }
 enum ResizeMode {
 	FIT_WIDTH;
