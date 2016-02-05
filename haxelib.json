@@ -1,0 +1,14 @@
+{
+  "name": "scrollable-area",
+  "url" : "https://github.com/GimmickyApps/FlxScrollableArea",
+  "license": "MIT",
+  "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
+  "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, intended for manual layout enthusiasts.",
+  "version": "0.0.1-alpha",
+  "releasenote": "Initial release.  What is implemented already (basic scrollability with resize help) is working.",
+  "contributors": ["GimmickyApps"],
+  "dependencies": {
+    "flixel": "",
+    "openfl": "3.5.3"
+  }
+}

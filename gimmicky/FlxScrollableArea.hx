@@ -1,6 +1,7 @@
-package flixel.addons;
+package gimmicky;
 
-import flixel.addons.FlxScrollbar.FlxScrollbarOrientation;
+import flixel.FlxG;
+import gimmicky.FlxScrollbar.FlxScrollbarOrientation;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
