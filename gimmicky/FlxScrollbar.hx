@@ -22,7 +22,7 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _stale:Bool = true;
 	private var _camera:FlxScrollableArea;
 	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
-	private var _dragStartedAtBar:Float; // the x or y (depending on orientation) of the bar at drag start
+	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
 	 * 
@@ -86,23 +86,26 @@ class FlxScrollbar extends FlxSpriteGroup
 			if (_bar.overlapsPoint( mousePosition )) {
 				_dragStartedAt = mousePosition;
 				if (_orientation == HORIZONTAL) {
-					_dragStartedAtBar = _bar.x;
+					_dragStartedWhenBarWasAt = _bar.x;
 				} else {
-					_dragStartedAtBar = _bar.y;					
+					_dragStartedWhenBarWasAt = _bar.y;					
 				}
 			} else if (_track.overlapsPoint( mousePosition )) {
 				// TODO: track/paging case
+			} else {
+				
+				
 			}
 		}
 		if (_dragStartedAt != null) {
 			if (_orientation == HORIZONTAL) {
 				if (mousePosition.y < (_camera.y + _camera.height / 2)) // allow 50% of height away before jumping back to original position
 					mousePosition.x = _dragStartedAt.x;
-				_bar.x = FlxMath.bound( _dragStartedAtBar + (mousePosition.x - _dragStartedAt.x), _track.x, _track.x + _track.width - _bar.width );
+				_bar.x = FlxMath.bound( _dragStartedWhenBarWasAt + (mousePosition.x - _dragStartedAt.x), _track.x, _track.x + _track.width - _bar.width );
 			} else { // VERTICAL
 				if (mousePosition.x < (_camera.x + _camera.width / 2)) // allow 50% of width away before jumping back to original position
 					mousePosition.y = _dragStartedAt.y;
-				_bar.y = FlxMath.bound( _dragStartedAtBar + (mousePosition.y - _dragStartedAt.y), _track.y, _track.y + _track.height - _bar.height );
+				_bar.y = FlxMath.bound( _dragStartedWhenBarWasAt + (mousePosition.y - _dragStartedAt.y), _track.y, _track.y + _track.height - _bar.height );
 			}
 			updateViewScroll();
 		}
