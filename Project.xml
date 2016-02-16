@@ -6,4 +6,5 @@
 	<classpath name="src" />
 	<haxelib name="flixel"/>
 	<haxelib name="mcover"/>
+	<haxelib name="mockatoo"/>
 </project>
