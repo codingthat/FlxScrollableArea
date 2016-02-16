@@ -90,12 +90,10 @@ class FlxScrollbar extends FlxSpriteGroup
 				} else {
 					_dragStartedWhenBarWasAt = _bar.y;					
 				}
-			} else if (_track.overlapsPoint( mousePosition )) {
-				// TODO: track/paging case
-			} else {
-				
-				
 			}
+			//} else if (_track.overlapsPoint( mousePosition )) {
+				// track/paging case will go here
+			//}
 		}
 		if (_dragStartedAt != null) {
 			if (_orientation == HORIZONTAL) {
