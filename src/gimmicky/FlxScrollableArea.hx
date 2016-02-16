@@ -21,7 +21,7 @@ class FlxScrollableArea extends FlxCamera
 	/**
 	 * If your content's area changes (e.g. the content itself changes, or you override onResize), you need to update this to reflect it.
 	 */
-	public var content:FlxRect;
+	public var content(default, set):FlxRect;
 	/**
 	 * Returns the best layout strategy you should use in your state's onResize function.  If you passed NONE in the constructor,
 	 * this function just returns that.
@@ -65,11 +65,10 @@ class FlxScrollableArea extends FlxCamera
 		super();
 		
 		content = Content;
-		_resizeModeGoal = Mode; // must be before we set the viewport, because set_viewport uses it
-		viewPort = ViewPort;
-		if (ScrollbarThickness > -1) {
+		_resizeModeGoal = Mode; // must be before we set the viewport, because set_viewport uses it; likewise next line
+		if (ScrollbarThickness > -1)
 			scrollbarThickness = ScrollbarThickness;
-		}
+		viewPort = ViewPort;
 		_scrollbarColour = ScrollbarColour;
 
 		scroll.x = content.x;
@@ -218,6 +217,18 @@ class FlxScrollableArea extends FlxCamera
 		else
 			_horizontalScrollbar.visible = _verticalScrollbar.visible = false; // don't show
 		return value;
+	}
+	override public function destroy() {
+		FlxG.state.remove( _horizontalScrollbar );
+		FlxG.state.remove( _verticalScrollbar );
+	}
+	
+	function set_content(value:FlxRect):FlxRect 
+	{
+		content = value;
+		if (viewPort != null) // not during the constructor, but normally...
+			set_viewPort( viewPort ); // ...force update
+		return content;
 	}
 }
 enum ResizeMode {
