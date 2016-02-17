@@ -191,8 +191,6 @@ class FlxScrollableArea extends FlxCamera
 			if (_horizontalScrollbar.visible)
 				_horizontalScrollbar.draw();
 		#end
-		// TODO: touch
-		// TODO: mousewheel
 		x = Std.int( viewPort.x );
 		y = Std.int( viewPort.y );
 		width = Std.int( viewPort.width - verticalScrollbarWidth );

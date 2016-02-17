@@ -1,6 +1,6 @@
 # FlxScrollableArea (haxelib name: scrollable-area)
 
-For users of HaxeFlixel, a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
+For users of HaxeFlixel 4.0.0 (or the dev branch), a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
 
 ## How do I use it?
 
@@ -43,15 +43,3 @@ Then in your state's `onResize()`, follow this basic pattern for each scrollable
 ```
 
 Voila, you should have a sensibly drawn, functional vertical scrollbar, only when necessary.
-
-## Caveat: dev branch only
-
-I've only tested this using the dev branch of HaxeFlixel.  It's broken on stable due to such fundamental changes as `update()`'s signature, but the dev branch is supposed to be the new stable soonish, AFAICT.
-
-(If you need it on stable, it probably wouldn't be a lot of work to port, but it may have, in general, more bugs, since stable has some strange behaviour with StageSizeScaleMode.  Hence the use of dev.)
-
-## Caveat: they aren't swipable yet (and other missing features)
-
-I'm still figuring out some general Android testing issues before I'll tackle that part, unless you want to.
-
-However, meanwhile you can manually tell the area to scroll by `.set_scroll()`, if you want.
