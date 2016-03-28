@@ -9,7 +9,7 @@
   "releasenote": "A few minor fixes, and unit tests covering a good chunk of the code.",
   "contributors": ["GimmickyApps"],
   "dependencies": {
-    "flixel": "4.1.0",
+    "flixel": "4.0.0",
     "openfl": "3.6.0"
   }
 }

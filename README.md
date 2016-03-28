@@ -1,6 +1,6 @@
 # FlxScrollableArea (haxelib name: scrollable-area)
 
-For users of HaxeFlixel 4.1.0 (or the dev branch), a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
+For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
 
 NEW: it also works on the default scale mode.
 
