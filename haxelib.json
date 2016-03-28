@@ -4,12 +4,12 @@
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, intended for manual layout enthusiasts.",
-  "version": "0.0.2-alpha",
+  "version": "0.0.3-alpha",
   "classPath": "src/",
   "releasenote": "A few minor fixes, and unit tests covering a good chunk of the code.",
   "contributors": ["GimmickyApps"],
   "dependencies": {
-    "flixel": "4.0.0",
-    "openfl": "3.5.3"
+    "flixel": "4.1.0",
+    "openfl": "3.6.0"
   }
 }

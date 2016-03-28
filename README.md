@@ -1,6 +1,8 @@
 # FlxScrollableArea (haxelib name: scrollable-area)
 
-For users of HaxeFlixel 4.0.0 (or the dev branch), a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
+For users of HaxeFlixel 4.1.0 (or the dev branch), a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
+
+NEW: it also works on the default scale mode.
 
 ## How do I use it?
 
@@ -30,7 +32,9 @@ Now, prepare the content of your scrollable area off-screen somewhere where no o
 	FlxG.cameras.add( _myScrollableThingie );
 ```
 
-Then in your state's `onResize()`, follow this basic pattern for each scrollable area:
+Pro tip: If you use a FlxSpriteGroup for your off-screen content, then in the constructor (and below in onResize), you can just use myOffscreenGroup.getHitbox() instead of making a new FlxRect yourself.
+
+If you're not using StageSizeScaleMode, you're done.  Otherwise, in your state's `onResize()`, follow this basic pattern for each scrollable area:
 
 ```haxe
 	_myScrollableThingie.viewPort = new FlxRect( 0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight ); // must be before .bestMode
