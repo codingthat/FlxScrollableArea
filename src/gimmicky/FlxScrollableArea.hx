@@ -217,8 +217,11 @@ class FlxScrollableArea extends FlxCamera
 		return value;
 	}
 	override public function destroy() {
-		FlxG.state.remove( _horizontalScrollbar );
-		FlxG.state.remove( _verticalScrollbar );
+		for (bar in [_horizontalScrollbar, _verticalScrollbar]) {
+			FlxG.state.remove(bar);
+			bar.destroy();
+		}
+		super.destroy();
 	}
 	
 	function set_content(value:FlxRect):FlxRect 
