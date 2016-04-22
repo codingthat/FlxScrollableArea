@@ -3,6 +3,8 @@
 -main TestMain
 -lib munit
 -lib hamcrest
+-lib mockatoo
+--no-inline
 -cp C:/HaxeToolkit/haxe/lib/flixel/git
 -D flixel=3.3.12
 -cp C:/HaxeToolkit/haxe/lib/openfl/3,6,0
