@@ -5,11 +5,11 @@ import flixel.input.FlxInput.FlxInputState;
 import flixel.math.FlxRect;
 import flixel.system.replay.MouseRecord;
 import flixel.util.FlxColor;
-import gimmicky.FlxScrollbar;
+import ibwwg.FlxScrollbar;
 import massive.munit.util.Timer;
 import massive.munit.Assert;
 import massive.munit.async.AsyncFactory;
-import gimmicky.FlxScrollableArea;
+import ibwwg.FlxScrollableArea;
 import openfl.gl.GL;
 import openfl.utils.UInt8Array;
 import flixel.FlxTest;
@@ -39,7 +39,7 @@ class OffScrollbarClickTest extends FlxTest
 		resetGame();
 	}
 	
-	@:access(gimmicky.FlxScrollableArea)
+	@:access(ibwwg.FlxScrollableArea)
 	@:access(flixel.input.mouse)
 	@Test
 	public function testHorizOffScrollbarClick():Void
@@ -54,7 +54,7 @@ class OffScrollbarClickTest extends FlxTest
 		Assert.areEqual( instance.scroll.x, instance.content.x + instance.content.width / 2 );
 	}
 
-	@:access(gimmicky.FlxScrollableArea)
+	@:access(ibwwg.FlxScrollableArea)
 	@:access(flixel.input.mouse)
 	@Test
 	public function testVertOffScrollbarClick():Void

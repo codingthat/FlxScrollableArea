@@ -5,7 +5,7 @@ import flixel.util.FlxColor;
 import massive.munit.util.Timer;
 import massive.munit.Assert;
 import massive.munit.async.AsyncFactory;
-import gimmicky.FlxScrollableArea;
+import ibwwg.FlxScrollableArea;
 import openfl.gl.GL;
 import openfl.utils.UInt8Array;
 import flixel.FlxTest;

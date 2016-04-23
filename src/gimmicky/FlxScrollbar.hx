@@ -1,4 +1,4 @@
-package gimmicky;
+package ibwwg;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,7 +10,7 @@ import flixel.util.FlxSpriteUtil;
 
 /**
  * Simple scrollbar.  Draws itself and also handles dragging.  (It's up to you to use the provided data to update whatever you're scrolling.)
- * @author Gimmicky Apps
+ * @author In the Beginning was the Word Game
  */
 class FlxScrollbar extends FlxSpriteGroup
 {

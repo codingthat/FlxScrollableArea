@@ -1,8 +1,9 @@
 # FlxScrollableArea (haxelib name: scrollable-area)
 
-For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, intended for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`...this is the only way this has been tested, so far.)  It's possible that a normal scalemode could still be useful for something in the resize mode called NONE.
+For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, originally created for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`) to solve age-old scrollbar scaling problems, but it works with the default scalemode too.
 
-NEW: it also works on the default scale mode.
+This has been tested mostly on desktop targets and only with OpenFL legacy.  OpenFL 3.6.1 + Lime 2.9.1 work, but some older versions should work, too.
+
 
 ## How do I use it?
 
@@ -11,6 +12,13 @@ Install it:
 ```dos
 haxelib install scrollable-area
 ```
+
+Or the dev version:
+
+```dos
+haxelib git scrollable-area https://github.com/IBwWG/FlxScrollableArea
+```
+
 
 Reference it in your Project.xml:
 
@@ -21,10 +29,10 @@ Reference it in your Project.xml:
 In a state where you want a scrollable area, import it:
 
 ```haxe
-import gimmicky.FlxScrollableArea
+import ibwwg.FlxScrollableArea
 ```
 
-Now, prepare the content of your scrollable area off-screen somewhere where no other camera will touch it.  Then in your `create()`:
+Now, prepare the content of your scrollable area off-screen somewhere where no other camera will reach it.  Then in your state's `create()`:
 
 ```haxe
 	_myScrollableThingie = new FlxScrollableArea( new FlxRect( 0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight ), // full-screen viewport

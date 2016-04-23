@@ -1,7 +1,7 @@
-package gimmicky;
+package ibwwg;
 
 import flixel.FlxG;
-import gimmicky.FlxScrollbar.FlxScrollbarOrientation;
+import ibwwg.FlxScrollbar.FlxScrollbarOrientation;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -10,7 +10,7 @@ import openfl.geom.Rectangle;
 
 /**
  * An area of the screen that has automatic scrollbars, if needed.
- * @author Gimmicky Apps
+ * @author In the Beginning was the Word Game
  */
 class FlxScrollableArea extends FlxCamera
 {
