@@ -17,12 +17,13 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _orientation:FlxScrollbarOrientation;
 	private var _colour:FlxColor;
 	private var _minProportion:Float = 0.1; // smallest barProportion of the track that the bar can be
-	private var _track:FlxSprite;
+	private var _track:FlxSprite; // Sits under the bar, and takes up the whole side.
 	private var _bar:FlxSprite;
 	private var _stale:Bool = true;
 	private var _camera:FlxScrollableArea;
 	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
-	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start
+	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start (also for whole page movements)
+	private var _trackClickCountdown:Float; // timer until you start getting repeated whole-page-movements when holding down the mouse button
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
 	 * 
@@ -82,6 +83,7 @@ class FlxScrollbar extends FlxSpriteGroup
 		if (!visible)
 			return;
 		var mousePosition = FlxG.mouse.getWorldPosition();
+		var tryToScrollPage = false;
 		if (FlxG.mouse.justPressed) {
 			if (_bar.overlapsPoint( mousePosition )) {
 				_dragStartedAt = mousePosition;
@@ -90,10 +92,19 @@ class FlxScrollbar extends FlxSpriteGroup
 				} else {
 					_dragStartedWhenBarWasAt = _bar.y;					
 				}
+			} else if (_track.overlapsPoint( mousePosition )) {
+				_trackClickCountdown = 0.5;
+				if (_orientation == HORIZONTAL) {
+					_dragStartedWhenBarWasAt = _bar.x;
+				} else {
+					_dragStartedWhenBarWasAt = _bar.y;					
+				}
+				tryToScrollPage = true;
 			}
-			//} else if (_track.overlapsPoint( mousePosition )) {
-				// track/paging case will go here
-			//}
+		} else if (FlxG.mouse.pressed) {
+			_trackClickCountdown -= elapsed;
+			if (_trackClickCountdown < 0 && !_bar.overlapsPoint(mousePosition) && _track.overlapsPoint(mousePosition))
+				tryToScrollPage = true;
 		}
 		if (_dragStartedAt != null) {
 			if (_orientation == HORIZONTAL) {
@@ -106,6 +117,52 @@ class FlxScrollbar extends FlxSpriteGroup
 				_bar.y = FlxMath.bound( _dragStartedWhenBarWasAt + (mousePosition.y - _dragStartedAt.y), _track.y, _track.y + _track.height - _bar.height );
 			}
 			updateViewScroll();
+		} else if (tryToScrollPage) {
+			/**
+			* Tries to scroll a whole viewport width/height toward wherever the mousedown on the track is.
+			* 
+			* "Tries" because (to emulate standard scrollbar behaviour) you only scroll in one direction while holding the mouse button down.
+			* 
+			* E.g. on a vertical scrollbar, if you click & hold below the bar, it scrolls down, but if, while still holding, you move to above the bar, nothing happens.
+			*/
+			var whichWayToScroll:Int = 0; // 0: don't; 1: positive along axis; 2: negative along axis
+			if (_orientation == HORIZONTAL) {
+				if (_bar.x > _dragStartedWhenBarWasAt) { // scrolling right
+					if (mousePosition.x > _bar.x + _bar.width) // and far enough right to scroll more
+						whichWayToScroll = 1;
+				} else if (_bar.x > _dragStartedWhenBarWasAt) { // scrolling left
+					if (mousePosition.x < _bar.x) // and far enough left to scroll more
+						whichWayToScroll = -1;
+				} else { // first scroll...which way?
+					if (mousePosition.x < _bar.x) // left of bar
+						whichWayToScroll = -1;
+					else // either right of bar, or on the bar; but if on the bar, execution shouldn't reach here in the first place
+						whichWayToScroll = 1; // start scrolling right
+				}
+				if (whichWayToScroll == 1)
+					_bar.x = FlxMath.bound(_bar.x + _bar.width, null, _track.x + _track.width - _bar.width);
+				else if (whichWayToScroll == -1)
+					_bar.x = FlxMath.bound(_bar.x - _bar.width, _track.x);
+			} else { // VERTICAL
+				if (_bar.y > _dragStartedWhenBarWasAt) { // scrolling down
+					if (mousePosition.y > _bar.y + _bar.height) // and far enough down to scroll more
+						whichWayToScroll = 1;
+				} else if (_bar.y > _dragStartedWhenBarWasAt) { // scrolling up
+					if (mousePosition.y < _bar.y) // and far enough up to scroll more
+						whichWayToScroll = -1;
+				} else { // first scroll...which way?
+					if (mousePosition.y < _bar.y) // up of bar
+						whichWayToScroll = -1;
+					else // either down of bar, or on the bar; but if on the bar, execution shouldn't reach here in the first place
+						whichWayToScroll = 1; // start scrolling down
+				}
+				if (whichWayToScroll == 1)
+					_bar.y = FlxMath.bound(_bar.y + _bar.height, null, _track.y + _track.height - _bar.height);
+				else if (whichWayToScroll == -1)
+					_bar.y = FlxMath.bound(_bar.y - _bar.height, _track.y);
+			}
+			if (whichWayToScroll != 0)
+				updateViewScroll();
 		}
 		if (FlxG.mouse.justReleased)
 			_dragStartedAt = null;
