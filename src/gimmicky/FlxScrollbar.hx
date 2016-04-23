@@ -64,7 +64,7 @@ class FlxScrollbar extends FlxSpriteGroup
 					scrolledProportion = 0;
 				else
 					scrolledProportion = FlxMath.bound( _camera.scroll.x / ( _camera.content.width - _track.width ), 0, 1 );
-				_bar.x = scrolledProportion * (_track.width * (1 - barProportion));
+				_bar.x = x + scrolledProportion * (_track.width * (1 - barProportion));
 			} else {
 				barProportion = FlxMath.bound( _track.height / _camera.content.height, _minProportion );
 				_bar.makeGraphic( Std.int( _track.width ), Std.int( _track.height * barProportion ), _colour, true );
@@ -72,7 +72,7 @@ class FlxScrollbar extends FlxSpriteGroup
 					scrolledProportion = 0;
 				else
 					scrolledProportion = FlxMath.bound( _camera.scroll.y / ( _camera.content.height - _track.height ), 0, 1 );
-				_bar.y = scrolledProportion * (_track.height * (1 - barProportion));
+				_bar.y = y + scrolledProportion * (_track.height * (1 - barProportion));
 			}
 			_stale = false;
 		}
@@ -177,13 +177,13 @@ class FlxScrollbar extends FlxSpriteGroup
 			if (_track.width == _bar.width)
 				scrolledProportion = 0;
 			else
-				scrolledProportion = FlxMath.bound( _bar.x / (_track.width - _bar.width), 0, 1 );
+				scrolledProportion = FlxMath.bound( (_bar.x - x) / (_track.width - _bar.width), 0, 1 );
 			_camera.scroll.x = _camera.content.x + (_camera.content.width - _track.width) * scrolledProportion;
 		} else {
 			if (_track.height == _bar.height)
 				scrolledProportion = 0;
 			else
-				scrolledProportion = FlxMath.bound( _bar.y / (_track.height - _bar.height), 0, 1 );
+				scrolledProportion = FlxMath.bound( (_bar.y - y) / (_track.height - _bar.height), 0, 1 );
 			_camera.scroll.y = _camera.content.y + (_camera.content.height - _track.height) * scrolledProportion;
 		}
 	}
