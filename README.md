@@ -1,6 +1,8 @@
 # FlxScrollableArea (haxelib name: scrollable-area)
 
-For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, originally created for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`) to solve [age-old problems when resizing with scrollbars](http://inthebeginningwasthewordgame.blogspot.ch/2016/01/huzzah-scrollbars-drawn.html)--see there for screenshots, but it works with the default scalemode too.
+For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, originally created for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`) to solve [age-old problems when resizing with scrollbars](http://inthebeginningwasthewordgame.blogspot.ch/2016/01/scrollbar-merry-go-round.html), but it works with the default scalemode too.
+	
+[See here for screenshots.](http://inthebeginningwasthewordgame.blogspot.ch/2016/01/huzzah-scrollbars-drawn.html)
 
 This has been tested mostly on desktop targets and only with OpenFL legacy.  OpenFL 3.6.1 + Lime 2.9.1 work, but some older versions should work, too.
 
