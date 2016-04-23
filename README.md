@@ -4,6 +4,7 @@ For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, ori
 
 This has been tested mostly on desktop targets and only with OpenFL legacy.  OpenFL 3.6.1 + Lime 2.9.1 work, but some older versions should work, too.
 
+Please note that I am phasing out the `gimmicky` classpath, so if you're upgrading to 0.1.0 or beyond, you'll need to search any replace `gimmicky.` with `ibwwg.`.
 
 ## How do I use it?
 
