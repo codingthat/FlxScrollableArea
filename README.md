@@ -1,4 +1,4 @@
-# FlxScrollableArea (haxelib name: scrollable-area)
+# FlxScrollableArea
 
 For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, originally created for manual layout enthusiasts (i.e. users of `FlxG.scaleMode = new StageSizeScaleMode()`) to solve [age-old problems when resizing with scrollbars](http://inthebeginningwasthewordgame.blogspot.ch/2016/01/scrollbar-merry-go-round.html), but it works with the default scalemode too.
 	
@@ -7,6 +7,30 @@ For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, ori
 This has been tested mostly on desktop targets and only with OpenFL legacy.  OpenFL 3.6.1 + Lime 2.9.1 work, but some older versions should work, too.
 
 Please note that I am phasing out the `gimmicky` classpath, so if you're upgrading to 0.1.0 or beyond, you'll need to search any replace `gimmicky.` with `ibwwg.`.
+
+# Special note for users of the "scrollable-area" haxelib
+
+I had trouble deprecating the old publishing name with haxelib, but then discoverd if you use git bisect, the name change will have broken your old builds.  If this is the case for you, first downgrade to pre-rename scrollable-area:
+
+```
+haxelib set scrollable-area 0.0.2-alpha
+```
+
+Then install and use the new one:
+
+```
+haxelib install flxscrollablearea
+```
+```
+<haxelib name="flxscrollablearea" />
+```
+```
+import ibwwg.FlxScrollableArea;
+```
+
+...going forward.
+
+Unfortunately if you used 0.1.1 for a few commits, those will still be broken.  But those before and those after will be good to go, which will hopefully be the majority.  Eventually, I suppose.  :)
 
 ## How do I use it?
 
