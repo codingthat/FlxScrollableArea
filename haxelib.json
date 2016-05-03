@@ -1,12 +1,12 @@
 {
-  "name": "scrollable-area",
+  "name": "flxscrollablearea",
   "url" : "https://github.com/IBwWG/FlxScrollableArea",
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, originally intended for manual layout enthusiasts.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "classPath": "src/",
-  "releasenote": "Added the ability to scroll a viewport at a time by clicking off-bar within the track.  Important: also renamed the class parent from gimmicky to ibwwg!",
+  "releasenote": "Migrate to new haxelib, so, e.g., git bisect is not broken for projecs that had used it before the name switch.",
   "contributors": ["IBwWG"],
   "dependencies": {
     "flixel": "4.0.0",
