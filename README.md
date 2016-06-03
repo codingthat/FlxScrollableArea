@@ -25,7 +25,7 @@ Reference it in your Project.xml:
 In a state where you want a scrollable area, import it:
 
 ```haxe
-import ibwwg.FlxScrollableArea
+import ibwwg.FlxScrollableArea;
 ```
 
 Now, prepare the content of your scrollable area off-screen somewhere where no other camera will reach it.  Then in your state's `create()`:
