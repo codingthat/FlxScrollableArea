@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, originally intended for manual layout enthusiasts.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "classPath": "src/",
-  "releasenote": "Migrate to new haxelib, so, e.g., git bisect is not broken for projecs that had used it before the name switch.",
+  "releasenote": "Add support for FlxSubState and fix minor scroll-on-resize bug.",
   "contributors": ["IBwWG"],
   "dependencies": {
     "flixel": "4.0.0",
