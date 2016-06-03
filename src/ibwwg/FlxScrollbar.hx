@@ -2,6 +2,7 @@ package ibwwg;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -20,6 +21,7 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _track:FlxSprite; // Sits under the bar, and takes up the whole side.
 	private var _bar:FlxSprite;
 	private var _stale:Bool = true;
+	private var _state:FlxState;
 	private var _camera:FlxScrollableArea;
 	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
 	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start (also for whole page movements)
@@ -35,10 +37,16 @@ class FlxScrollbar extends FlxSpriteGroup
 	 * @param	Colour				The colour of the draggable part of the scrollbar.  The rest of it will be the same colour added to FlxColor.GRAY.
 	 * @param	Camera				The parent scrollable area to control with this scrollbar.
 	 * @param	InitiallyVisible	Bool to set .visible to.
+ 	 * @param	State				Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
 	 */
-	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false ) 
+	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false, ?State:FlxState ) 
 	{
 		super( X, Y );
+
+		_state = State;
+		if (_state == null)
+			_state = FlxG.state;
+
 		_orientation = Orientation;
 		_colour = Colour;
 		_camera = Camera;

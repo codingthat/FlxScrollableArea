@@ -1,6 +1,8 @@
 package ibwwg;
 
 import flixel.FlxG;
+import flixel.FlxState;
+import flixel.FlxSubState;
 import ibwwg.FlxScrollbar.FlxScrollbarOrientation;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
@@ -47,6 +49,7 @@ class FlxScrollableArea extends FlxCamera
 	#else
 	public var scrollbarThickness:Int = 4;
 	#end
+	private var _state:FlxState;
 	private var _horizontalScrollbar:FlxScrollbar;
 	private var _verticalScrollbar:FlxScrollbar;
 	private var _scrollbarColour:FlxColor;
@@ -60,10 +63,14 @@ class FlxScrollableArea extends FlxCamera
 	 * @param	Mode				State the goal of your own resizing code, so that the .bestMode property contains an accurate value.
 	 * @param	ScrollbarThickness	Defaults to 20 for mice and 4 "otherwise" (touch is assumed.)
 	 * @param	ScrollbarColour		Passed to FlxScrollbar.  ("They say geniuses pick green," so don't change the default unless you're the supergenius we all know you to be.)
+	 * @param	State				Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
 	 */
-	public function new(ViewPort:FlxRect, Content:FlxRect, Mode:ResizeMode, ?ScrollbarThickness:Int=-1, ?ScrollbarColour:FlxColor=FlxColor.LIME) {
+	public function new(ViewPort:FlxRect, Content:FlxRect, Mode:ResizeMode, ?ScrollbarThickness:Int=-1, ?ScrollbarColour:FlxColor=FlxColor.LIME, ?State:FlxState) {
 		super();
 		
+		_state = State;
+		if (_state == null)
+			_state = FlxG.state;
 		content = Content;
 		_resizeModeGoal = Mode; // must be before we set the viewport, because set_viewport uses it; likewise next line
 		if (ScrollbarThickness > -1)
@@ -74,10 +81,10 @@ class FlxScrollableArea extends FlxCamera
 		scroll.x = content.x;
 		scroll.y = content.y;
 		
-		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this );
-		FlxG.state.add( _verticalScrollbar );
-		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour, this );
-		FlxG.state.add( _horizontalScrollbar );
+		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this, false, _state );
+		_state.add( _verticalScrollbar );
+		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour, this, false, _state );
+		_state.add( _horizontalScrollbar );
 
 		onResize();
 	}
@@ -218,7 +225,7 @@ class FlxScrollableArea extends FlxCamera
 	}
 	override public function destroy() {
 		for (bar in [_horizontalScrollbar, _verticalScrollbar]) {
-			FlxG.state.remove(bar);
+			_state.remove(bar);
 			bar.destroy();
 		}
 		super.destroy();
