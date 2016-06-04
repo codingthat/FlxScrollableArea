@@ -90,7 +90,7 @@ class FlxScrollbar extends FlxSpriteGroup
 	{
 		if (!visible)
 			return;
-		var mousePosition = FlxG.mouse.getWorldPosition();
+		var mousePosition = FlxG.mouse.getScreenPosition();
 		var tryToScrollPage = false;
 		if (FlxG.mouse.justPressed) {
 			if (_bar.overlapsPoint( mousePosition )) {
