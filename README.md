@@ -60,6 +60,13 @@ Voila, you should have a sensibly drawn, functional vertical scrollbar, only whe
 
 Yes.  Just pass your substate in the constructor so that it doesn't default to `FlxG.state`.  (This is so the scrollbars themselves, which get drawn outside the viewport by being added to the given FlxState, will still work when your parent state's drawing and/or updating is paused.)
 
+# Showcase
+
+FlxScrollableArea is used in the following games:
+
+1. [Willy and Mathilda's Houseboat Adventure: The Game](https://ibwwg.itch.io/mathildagame)
+2. [Debatcles](http://ibwwg.com/?id=1) (unreleased)
+
 # Special note for users of the deprecated "scrollable-area" haxelib
 
 Please note that I phased out the `gimmicky` classpath, so if you're upgrading to 0.1.0 or beyond, you'll need to search and replace `gimmicky.` with `ibwwg.`.
