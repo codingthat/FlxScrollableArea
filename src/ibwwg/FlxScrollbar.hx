@@ -26,20 +26,22 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
 	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start (also for whole page movements)
 	private var _trackClickCountdown:Float; // timer until you start getting repeated whole-page-movements when holding down the mouse button
+	private var _mouseWheelMultiplier:Int;
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
 	 * 
-	 * @param	X					As with any sprite.
-	 * @param	Y					"
-	 * @param	Width				"
-	 * @param	Height				"
-	 * @param	Orientation			Whether it's meant to operate vertically or horizontally.  (This is not assumed from the width/height.)
-	 * @param	Colour				The colour of the draggable part of the scrollbar.  The rest of it will be the same colour added to FlxColor.GRAY.
-	 * @param	Camera				The parent scrollable area to control with this scrollbar.
-	 * @param	InitiallyVisible	Bool to set .visible to.
- 	 * @param	State				Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
+	 * @param	X						As with any sprite.
+	 * @param	Y						"
+	 * @param	Width					"
+	 * @param	Height					"
+	 * @param	Orientation				Whether it's meant to operate vertically or horizontally.  (This is not assumed from the width/height.)
+	 * @param	Colour					The colour of the draggable part of the scrollbar.  The rest of it will be the same colour added to FlxColor.GRAY.
+	 * @param	Camera					The parent scrollable area to control with this scrollbar.
+	 * @param	InitiallyVisible		Bool to set .visible to.
+ 	 * @param	State					Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
+	 * @param	MouseWheelMultiplier	How much to multiply mouse wheel deltas by.  Set to 0 to disable mouse wheeling.  Default 100.
 	 */
-	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false, ?State:FlxState ) 
+	public function new( X:Float, Y:Float, Width:Float, Height:Float, Orientation:FlxScrollbarOrientation, Colour:FlxColor, Camera:FlxScrollableArea, ?InitiallyVisible:Bool=false, ?State:FlxState, ?MouseWheelMultiplier:Int=100 ) 
 	{
 		super( X, Y );
 
@@ -50,6 +52,7 @@ class FlxScrollbar extends FlxSpriteGroup
 		_orientation = Orientation;
 		_colour = Colour;
 		_camera = Camera;
+		_mouseWheelMultiplier = MouseWheelMultiplier;
 		
 		_track = new FlxSprite();
 		_track.makeGraphic( Std.int( Width ), Std.int( Height ), FlxColor.add( FlxColor.GRAY, _colour ), true );
@@ -171,6 +174,15 @@ class FlxScrollbar extends FlxSpriteGroup
 			}
 			if (whichWayToScroll != 0)
 				updateViewScroll();
+		} else if (FlxG.mouse.wheel != 0) {
+			if (_orientation == HORIZONTAL) {
+				_bar.x = FlxMath.bound(_bar.x - FlxG.mouse.wheel * _mouseWheelMultiplier, _track.x, _track.x + _track.width - _bar.width);
+			} else { // VERTICAL
+				trace(FlxG.mouse.wheel, FlxG.mouse.wheel * _mouseWheelMultiplier, _bar.y);
+				_bar.y = FlxMath.bound(_bar.y - FlxG.mouse.wheel * _mouseWheelMultiplier, _track.y, _track.y + _track.height - _bar.height);
+				trace(FlxG.mouse.wheel, FlxG.mouse.wheel * _mouseWheelMultiplier, _bar.y);
+			}
+			updateViewScroll();
 		}
 		if (FlxG.mouse.justReleased)
 			_dragStartedAt = null;

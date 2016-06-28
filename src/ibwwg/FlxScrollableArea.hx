@@ -58,14 +58,15 @@ class FlxScrollableArea extends FlxCamera
 	/**
 	 * Creates a specialized FlxCamera that can be added to FlxG.cameras.
 	 *
-	 * @param	ViewPort			The area on the screen, in absolute pixels, that will show content.
-	 * @param	Content				The area (probably off-screen) to be viewed in ViewPort.  Must have a non-zero width and height.
-	 * @param	Mode				State the goal of your own resizing code, so that the .bestMode property contains an accurate value.
-	 * @param	ScrollbarThickness	Defaults to 20 for mice and 4 "otherwise" (touch is assumed.)
-	 * @param	ScrollbarColour		Passed to FlxScrollbar.  ("They say geniuses pick green," so don't change the default unless you're the supergenius we all know you to be.)
-	 * @param	State				Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
+	 * @param	ViewPort				The area on the screen, in absolute pixels, that will show content.
+	 * @param	Content					The area (probably off-screen) to be viewed in ViewPort.  Must have a non-zero width and height.
+	 * @param	Mode					State the goal of your own resizing code, so that the .bestMode property contains an accurate value.
+	 * @param	ScrollbarThickness		Defaults to 20 for mice and 4 "otherwise" (touch is assumed.)
+	 * @param	ScrollbarColour			Passed to FlxScrollbar.  ("They say geniuses pick green," so don't change the default unless you're the supergenius we all know you to be.)
+	 * @param	State					Which state to add the scrollbar(s) to.  If you're in a FlxSubState with its parent paused, pass it in here.
+	 * @param	MouseWheelMultiplier	How much to multiply mouse wheel deltas by.  Set to 0 to disable mouse wheeling.  Default 100.
 	 */
-	public function new(ViewPort:FlxRect, Content:FlxRect, Mode:ResizeMode, ?ScrollbarThickness:Int=-1, ?ScrollbarColour:FlxColor=FlxColor.LIME, ?State:FlxState) {
+	public function new(ViewPort:FlxRect, Content:FlxRect, Mode:ResizeMode, ?ScrollbarThickness:Int=-1, ?ScrollbarColour:FlxColor=FlxColor.LIME, ?State:FlxState, ?MouseWheelMultiplier:Int=100) {
 		super();
 		
 		_state = State;
@@ -81,9 +82,9 @@ class FlxScrollableArea extends FlxCamera
 		scroll.x = content.x;
 		scroll.y = content.y;
 		
-		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this, false, _state );
+		_verticalScrollbar = new FlxScrollbar( 0, 0, scrollbarThickness, 1, FlxScrollbarOrientation.VERTICAL, ScrollbarColour, this, false, _state, MouseWheelMultiplier );
 		_state.add( _verticalScrollbar );
-		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour, this, false, _state );
+		_horizontalScrollbar = new FlxScrollbar( 0, 0, 1, scrollbarThickness, FlxScrollbarOrientation.HORIZONTAL, ScrollbarColour, this, false, _state, MouseWheelMultiplier );
 		_state.add( _horizontalScrollbar );
 
 		onResize();

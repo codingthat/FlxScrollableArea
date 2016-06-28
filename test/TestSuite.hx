@@ -1,6 +1,7 @@
 import massive.munit.TestSuite;
 
 import CorrectScrollbarsShownTest;
+import MouseWheelScrollTest;
 import OffScrollbarClickTest;
 
 /**
@@ -16,6 +17,7 @@ class TestSuite extends massive.munit.TestSuite
 		super();
 
 		add(CorrectScrollbarsShownTest);
+		add(MouseWheelScrollTest);
 		add(OffScrollbarClickTest);
 	}
 }

@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, originally intended for manual layout enthusiasts.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "classPath": "src/",
-  "releasenote": "Fix scrollbars not responding to mouse clicks when main camera is scrolled.",
+  "releasenote": "Add mouse wheel support.",
   "contributors": ["IBwWG"],
   "dependencies": {
     "flixel": "4.0.0",
