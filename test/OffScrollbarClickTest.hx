@@ -17,17 +17,9 @@ import flixel.FlxTest;
 class OffScrollbarClickTest extends FlxTest
 {
 	var instance:FlxScrollableArea;
-	var randomInt:Int;
 	var squareViewPort:FlxRect;
 	var wideContent:FlxRect;
 	var tallContent:FlxRect;
-	var squareContent:FlxRect;
-	var bigSquareContent:FlxRect;
-	var wideContent2:FlxRect;
-	var tallContent2:FlxRect;
-	var tallContent3:FlxRect;
-	var beforeWidth:Int;
-	var beforeHeight:Int;
 	
 	@Before
 	public function setup():Void
