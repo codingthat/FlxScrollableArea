@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, originally intended for manual layout enthusiasts.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "classPath": "src/",
-  "releasenote": "Add mouse wheel support.",
+  "releasenote": "Remove trace statements.",
   "contributors": ["IBwWG"],
   "dependencies": {
     "flixel": "4.0.0",

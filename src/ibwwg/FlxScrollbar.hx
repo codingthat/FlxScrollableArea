@@ -178,9 +178,7 @@ class FlxScrollbar extends FlxSpriteGroup
 			if (_orientation == HORIZONTAL) {
 				_bar.x = FlxMath.bound(_bar.x - FlxG.mouse.wheel * _mouseWheelMultiplier, _track.x, _track.x + _track.width - _bar.width);
 			} else { // VERTICAL
-				trace(FlxG.mouse.wheel, FlxG.mouse.wheel * _mouseWheelMultiplier, _bar.y);
 				_bar.y = FlxMath.bound(_bar.y - FlxG.mouse.wheel * _mouseWheelMultiplier, _track.y, _track.y + _track.height - _bar.height);
-				trace(FlxG.mouse.wheel, FlxG.mouse.wheel * _mouseWheelMultiplier, _bar.y);
 			}
 			updateViewScroll();
 		}
