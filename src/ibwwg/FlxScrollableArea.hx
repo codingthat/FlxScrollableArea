@@ -239,6 +239,14 @@ class FlxScrollableArea extends FlxCamera
 			set_viewPort( viewPort ); // ...force update
 		return content;
 	}
+	/**
+	 * Force a redraw of any visible scrollbars.  Call this if you modify the scroll manually, e.g. to force something to be scrolled into view.
+	 */
+	public function redrawBars()
+	{
+		_horizontalScrollbar.forceRedraw();
+		_verticalScrollbar.forceRedraw();
+	}
 }
 enum ResizeMode {
 	FIT_WIDTH;

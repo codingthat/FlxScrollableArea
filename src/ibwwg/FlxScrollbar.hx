@@ -246,6 +246,10 @@ class FlxScrollbar extends FlxSpriteGroup
 		} else
 			return value;
 	}
+	public function forceRedraw() {
+		if (visible)
+			_stale = true;
+	}
 }
 enum FlxScrollbarOrientation {
 	VERTICAL;
