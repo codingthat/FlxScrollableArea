@@ -1,8 +1,8 @@
 import massive.munit.TestSuite;
 
-import CorrectScrollbarsShownTest;
-import MouseWheelScrollTest;
 import OffScrollbarClickTest;
+import MouseWheelScrollTest;
+import CorrectScrollbarsShownTest;
 
 /**
  * Auto generated Test Suite for MassiveUnit.
@@ -16,8 +16,8 @@ class TestSuite extends massive.munit.TestSuite
 	{
 		super();
 
-		add(CorrectScrollbarsShownTest);
-		add(MouseWheelScrollTest);
 		add(OffScrollbarClickTest);
+		add(MouseWheelScrollTest);
+		add(CorrectScrollbarsShownTest);
 	}
 }

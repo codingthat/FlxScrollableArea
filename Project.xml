@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	<!-- This file exists solely so that autocompletion works on FlashDevelop.  It's not intended to actually build the project. -->
-	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2 -->
+	<meta title="FlxScrollableAreaUnitTests" version="1.0.0" />
+	<app file="TestMain" main="TestMain" />
+	
 	<set name="SWF_VERSION" value="11.8" />
+	<source path="test" />
 	<classpath name="src" />
-	<haxelib name="flixel"/>
-	<haxelib name="mcover"/>
+	<classpath name="extern" />
+
+	
+	<set name="no-custom-backend" />
+	<set name="unit-test" />
+	
+	<haxelib name="munit" />
+	<haxelib name="flixel" />
+	<haxelib name="hamcrest" />
+	
 </project>

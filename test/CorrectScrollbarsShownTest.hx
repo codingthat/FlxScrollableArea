@@ -85,8 +85,8 @@ class CorrectScrollbarsShownTest extends FlxTest
 	@Test
 	public function testVertScrollWhenTooTallNone():Void
 	{
-		randomInt = Std.random( 50 ) + 5;
-		tallContent3 = new FlxRect( -500, -500, 100 - randomInt, 110 );
+		randomInt = Std.random( 62 ) + 20;
+		tallContent3 = new FlxRect( -500, -500, randomInt, 110 );
 		instance = new FlxScrollableArea( squareViewPort, tallContent3, ResizeMode.NONE );
 		Assert.areNotEqual( instance.verticalScrollbarWidth, 0 );
 		Assert.areEqual( instance.horizontalScrollbarHeight, 0 );

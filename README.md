@@ -69,6 +69,22 @@ FlxScrollableArea is used in the following games:
 
 Please let me know if you make something using FlxScrollableArea and would like to feature it here.  :)
 
+# Running tests
+
+In the project root, simply run:
+
+```
+lime test neko
+```
+
+Coverage *may* be obtainable like this:
+
+```
+haxelib run munit t -coverage
+```
+
+...but it may be platform-dependent, and may require tweaking test.hxml to use the right versions and point correctly to your openfl externs.
+
 # Special note for users of the deprecated "scrollable-area" haxelib
 
 Please note that I phased out the `gimmicky` classpath, so if you're upgrading to 0.1.0 or beyond, you'll need to search and replace `gimmicky.` with `ibwwg.`.
