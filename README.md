@@ -67,6 +67,8 @@ FlxScrollableArea is used in the following games:
 1. [Willy and Mathilda's Houseboat Adventure: The Game](https://ibwwg.itch.io/mathildagame)
 2. [Debatcles](http://ibwwg.com/?id=1) (unreleased)
 
+Please let me know if you make something using FlxScrollableArea and would like to feature it here.  :)
+
 # Special note for users of the deprecated "scrollable-area" haxelib
 
 Please note that I phased out the `gimmicky` classpath, so if you're upgrading to 0.1.0 or beyond, you'll need to search and replace `gimmicky.` with `ibwwg.`.
