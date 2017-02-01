@@ -9,7 +9,7 @@ For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, ori
 1. This has been tested mostly on desktop targets and only with OpenFL legacy.
 1. OpenFL 3.6.1 + Lime 2.9.1 work (that's all that's current supported in HaxeFlixel), but some older versions should work, too.
 1. haxe 3.2.1 and 3.4.0 work.
-1. OpenFL Next (`openfl test neko -Dnext`, for example) passes the unit tests, but the example app's boxes look pretty strange.  That said, the scrollbar still functions, so it may work fine for your OpenFL-Next-enabled project.
+1. OpenFL Next (`openfl test neko -Dnext`, for example) passes the unit tests, but the example app's boxes look pretty strange due to https://github.com/HaxeFlixel/flixel/issues/2026 .  That said, **the scrollbar still functions**, so it may work fine for your OpenFL-Next-enabled project.
 
 Let me know if other combinations work too!
 
