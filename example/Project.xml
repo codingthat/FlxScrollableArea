@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<app title="FlxScrollableAreaDemo" file="FlxScrollableAreaDemo" main="Main" version="1.0.0" company="In the Beginning was the Word Game" />
+	
+	<classpath name="source" />
+	
+	<haxelib name="flixel" />
+	<haxelib name="flxscrollablearea" />
+	
+	<haxedef name="FLX_NO_MOUSE" if="mobile" />
+	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+	<haxedef name="FLX_NO_TOUCH" if="desktop" />
+</project>

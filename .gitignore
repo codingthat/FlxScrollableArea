@@ -3,3 +3,6 @@ export/*
 build/*
 report/*
 bin/*
+example/bin/*
+example/export/*
+flxscrollablearea.zip

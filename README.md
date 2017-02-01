@@ -32,13 +32,15 @@ Now, prepare the content of your scrollable area off-screen somewhere where no o
 
 ```haxe
 	_myScrollableThingie = new FlxScrollableArea( new FlxRect( 0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight ), // full-screen viewport
-		new FlxRect( _offscreenX, 0, width_of_my_content, height_of_my_content ) );
+		new FlxRect( _offscreenX, 0, width_of_my_content, height_of_my_content ), FIT_WIDTH );
 	FlxG.cameras.add( _myScrollableThingie );
 ```
 
 Pro tip: If you use a FlxSpriteGroup for your off-screen content, then in the constructor (and below in onResize), you can just use myOffscreenGroup.getHitbox() instead of making a new FlxRect yourself.
 
 If you're not using StageSizeScaleMode, you're done!
+
+Everything up to this point can be found in the demo in the example directory.  Simply `cd` there and run `lime test neko`.
 
 ## StageSizeScaleMode
 
@@ -66,12 +68,13 @@ FlxScrollableArea is used in the following games:
 
 1. [Willy and Mathilda's Houseboat Adventure: The Game](https://ibwwg.itch.io/mathildagame)
 2. [Debatcles](http://ibwwg.com/?id=1) (unreleased)
+3. Your next hit!  ;)
 
 Please let me know if you make something using FlxScrollableArea and would like to feature it here.  :)
 
 # Running tests
 
-In the project root, simply run:
+In FlxScrollableArea's project root, simply run:
 
 ```
 lime test neko

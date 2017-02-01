@@ -1,0 +1,1 @@
+7z a -tzip -i!release.sh -i!README.md -i!example -x!example/bin -x!example/export -i!extern -i!haxelib.json -i!LICENSE -i!.munit -i!Project.xml -i!scrollable-area.hxproj -i!src -i!test -i!test.hxml flxscrollablearea.zip

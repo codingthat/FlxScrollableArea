@@ -4,12 +4,12 @@
   "license": "MIT",
   "tags": ["cross", "haxeflixel", "flash", "cpp", "ui", "openfl"],
   "description": "For users of HaxeFlixel, a scrollable area with automatic scrollbars, originally intended for manual layout enthusiasts.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "classPath": "src/",
-  "releasenote": "Remove trace statements.",
+  "releasenote": "Now with an example project!  Easier tests, working on Linux.  Fix crash with neko+linux64.",
   "contributors": ["IBwWG"],
   "dependencies": {
-    "flixel": "4.0.0",
-    "openfl": "3.6.0"
+    "flixel": "",
+    "openfl": ""
   }
 }

@@ -25,7 +25,7 @@ class FlxScrollbar extends FlxSpriteGroup
 	private var _camera:FlxScrollableArea;
 	private var _dragStartedAt:FlxPoint = null; // null signifying that we are not currently dragging, this is the mousedown spot
 	private var _dragStartedWhenBarWasAt:Float; // the x or y (depending on orientation) of the bar at drag start (also for whole page movements)
-	private var _trackClickCountdown:Float; // timer until you start getting repeated whole-page-movements when holding down the mouse button
+	private var _trackClickCountdown = 0.0; // timer until you start getting repeated whole-page-movements when holding down the mouse button
 	private var _mouseWheelMultiplier:Int;
 	/**
 	 * Create a new scrollbar graphic.  You'll have to hide it yourself when needed.
@@ -108,7 +108,7 @@ class FlxScrollbar extends FlxSpriteGroup
 				if (_orientation == HORIZONTAL) {
 					_dragStartedWhenBarWasAt = _bar.x;
 				} else {
-					_dragStartedWhenBarWasAt = _bar.y;					
+					_dragStartedWhenBarWasAt = _bar.y;
 				}
 				tryToScrollPage = true;
 			}
