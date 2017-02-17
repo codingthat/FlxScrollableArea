@@ -13,13 +13,35 @@ For users of HaxeFlixel 4.0.0+, a scrollable area with automatic scrollbars, ori
 
 Let me know if other combinations work too!
 
-## How do I use it?
+## How do I install it?
 
-Install it:
+Using `haxelib`, you can start with the latest release like so:
 
-```dos
+```sh
 haxelib install flxscrollablearea
 ```
+
+## How do I run the example?
+
+Switch to the installed directory of FlxScrollableArea.  If you installed via `haxelib` as above (rather than git clone or github download), you can do this:
+
+```sh
+haxelib path flxscrollablearea
+```
+
+Then take the first line of the output, and `cd` there, then:
+
+```sh
+cd example
+lime test neko
+```
+
+You should see something with workable scrollbars like the following:
+
+![scroll demo](https://cloud.githubusercontent.com/assets/16719964/23081153/d170bc5c-f553-11e6-8c43-2d54458289da.gif)
+
+
+## How do I use it in my own project?
 
 Reference it in your Project.xml:
 
